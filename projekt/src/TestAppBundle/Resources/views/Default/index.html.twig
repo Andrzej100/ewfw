@@ -1,0 +1,10 @@
+{#<p>Witaj {{name}}</p>
+{% for topic, messages in topics %}
+    * {{ loop.index }}: {{ topic }}
+    {% for message in messages %}
+        <p> - {{ loop.parent.loop.index }}.{{ loop.index }}: {{ message }}<p>
+    {% endfor %}
+{% endfor %}#}
+
+
+{{form(xform)}}

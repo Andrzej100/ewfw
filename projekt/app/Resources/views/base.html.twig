@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        <style type="text/css">
+            #ui-datepicker-div{
+                font-size: 12px;
+            }
+        </style>
+        <script type="text/javascript" src="{{asset('jquery.js')}}"> </script>
+        <script type="text/javascript" src="{{asset('jquery-ui.js')}}"></script>
+        <script type='text/javascript' >
+             $(function() {
+$( "#datepicker" ).datepicker();
+});
+            
+         {% block javascripts %}{% endblock %}
+             
+           function upload(blobOrFile) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '{{asset('Symfony/web/')}}', true);
+  xhr.onload = function(e) { ... };
+
+  // Listen to the upload progress.
+  var progressBar = document.querySelector('progress');
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      progressBar.value = (e.loaded / e.total) * 100;
+      progressBar.textContent = progressBar.value;  
+       }
+  };
+xhr.send(blobOrFile);
+}
+        </script>
+        <progress min="0" max="100" value="0">0% complete</progress>
+        <p>Date: <input type="text" id="datepicker"></p>
+    </body>
+</html>
