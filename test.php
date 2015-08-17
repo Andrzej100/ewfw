@@ -9,9 +9,11 @@
 
 
 <form action="test2.php" method="POST" enctype="multipart/form-data">
-<input type="file" name="test"  id="file"/>
+<input type="file" name="zdjecia[]"  id="file" multiple/>
 <input type="button"  value="ok" onClick="loadXMLDoc()"/>
 </form>
+<progress id="progressBar" value="0" max="100">  
+ </progress>  
 <div id="ladowanie"></div>
 <div id="postep"></div>
 <div id="odpowiedz">asd</div>
@@ -21,9 +23,12 @@ function loadXMLDoc()
 	
 	var xhr=new XMLHttpRequest();
 	var filevar=document.getElementById('file');
-	var file=filevar.files[0];
+	var files=filevar.files;
 	var formData = new FormData();
-    formData.append("thefile", file);
+	for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+	formData.append('zdjecia[]',file,file.name);
+    }
 	
 	xhr.open("POST","test2.php",true);
 	
@@ -33,9 +38,13 @@ function loadXMLDoc()
 				fileprogres.innerHtml = 'xhr progress: ' + (Math.floor(done/total*1000)/10) + '%';
 	}, false);
 	
+	
 	if ( xhr.upload ) {
 		xhr.upload.onprogress = function(e) {
                     var done = e.position || e.loaded, total = e.totalSize || e.total;
+					var progresbar = document.getElementById("progressBar");
+					progresbar.max=e.total;
+					progresbar.value=e.loaded;
 				    var plik = document.getElementById("postep");
 					plik.innerHTML = 'xhr.upload progress: ' + done + ' / ' + total + ' = ' + (Math.floor(done/total*1000)/10) + '%';
                     
