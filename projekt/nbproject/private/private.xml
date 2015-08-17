@@ -4,8 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Controller/ObrazkiController.php</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Obrazki/new.html.twig</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Controller/PersonelController.php</file>
-            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Entity/Obrazki.php</file>
             <file>file:/C:/xampp/htdocs/test/projekt/app/Resources/views/base.html.twig</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Personel/index.html.twig</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Form/ObrazkiType.php</file>

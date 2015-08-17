@@ -54,7 +54,7 @@ class ObrazkiController extends Controller
             
             $name=$form['nazwa']->getData();
             $dir='__DIR__./../Symfony/web';
-           $formularz=$form['data']->getData();
+           $formularz=file_get_contents($form['data']->getData());
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
