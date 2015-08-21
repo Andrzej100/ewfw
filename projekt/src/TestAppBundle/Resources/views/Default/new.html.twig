@@ -1,12 +1,11 @@
 
-
 {% block body -%}
     <h1>Demo creation</h1>
  
     <div class="form_error"></div>
-    <form method="POST" class="ajaxForm" action="{{path('Obrazki_create')}}" {{ form_enctype(form) }}>
+    <form method="POST" class="ajaxForm" action="{{path('demo_create')}}" {{ form_enctype(form) }}>
         <div id="form_body">
-            {% include 'TestAppBundle:Obrazki:form.html.twig' with {'form': form} %}
+            {% include 'AcmeDemoBundle:Demo:form.html.twig' with {'form': form} %}
         </div>
  
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -15,7 +14,7 @@
  
     <ul class="record_actions">
         <li>
-            <a href="{{ path('Obrazki') }}">
+            <a href="{{ path('demo') }}">
                 Back to the list
             </a>
         </li>

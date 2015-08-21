@@ -24,7 +24,7 @@ class ObrazkiController extends Controller
      * Lists all Obrazki entities.
      *
      * @Route("/", name="Obrazki")
-     * @Method("GET")
+     *
      * @Template()
      */
     public function indexAction()
@@ -49,24 +49,34 @@ class ObrazkiController extends Controller
         $entity = new Obrazki();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-       
+        
+      
+            
+        
+         
+           
         if ($form->isValid()) {
             
-            $name=$form['nazwa']->getData();
-            $dir='__DIR__./../Symfony/web';
-           $formularz=file_get_contents($form['data']->getData());
+            
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
             //return $this->redirect($this->generateUrl('Obrazki_show', array('id' => $entity->getId())));
+            return new JsonResponse(array('message' => 'Success!'), 200);
         }
 
-        return array(
-             'formularz'=>$formularz,
+       $response = new JsonResponse(
+            array(
+        'message' => 'Error',
+        'form' => $this->renderView('TestAppBundle:Obrazki:form.html.twig',
+                array(              
             'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+            'form' => $form->createView(),
+        ))), 400);
+ 
+    return $response;
     }
 
     /**
@@ -79,11 +89,12 @@ class ObrazkiController extends Controller
     private function createCreateForm(Obrazki $entity)
     {
         $form = $this->createForm(new ObrazkiType(), $entity, array(
-            'action' => $this->generateUrl('Obrazki_create'),
+            'action' => $this->generateUrl('Obrazki_new'),
+            'attr' => array('id'=>'myForm'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('button', 'submit', array('label' => 'create'));
 
         return $form;
     }
@@ -92,15 +103,23 @@ class ObrazkiController extends Controller
      * Displays a form to create a new Obrazki entity.
      *
      * @Route("/new", name="Obrazki_new")
-     * @Method("GET")
-     * @Template()
+     * 
+     * @Template("TestAppBundle:Obrazki:new.html.twig")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
         $entity = new Obrazki();
         $form   = $this->createCreateForm($entity);
-
-        return array(
+      
+           
+            
+          
+      
+       
+       
+        return array( 
+           
+           
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -110,7 +129,7 @@ class ObrazkiController extends Controller
      * Finds and displays a Obrazki entity.
      *
      * @Route("/{id}", name="Obrazki_show")
-     * @Method("GET")
+     * 
      * @Template()
      */
     public function showAction($id)
@@ -119,7 +138,7 @@ class ObrazkiController extends Controller
 
         $entity = $em->getRepository('TestAppBundle:Obrazki')->find($id);
         
-       $direct='Symfony/web/';
+      
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Obrazki entity.');
@@ -128,7 +147,7 @@ class ObrazkiController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'direct'      => $direct,
+            
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
@@ -138,7 +157,7 @@ class ObrazkiController extends Controller
      * Displays a form to edit an existing Obrazki entity.
      *
      * @Route("/{id}/edit", name="Obrazki_edit")
-     * @Method("GET")
+     *
      * @Template()
      */
     public function editAction($id)

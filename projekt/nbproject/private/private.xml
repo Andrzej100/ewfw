@@ -5,11 +5,14 @@
         <group>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Controller/ObrazkiController.php</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Obrazki/new.html.twig</file>
-            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Controller/PersonelController.php</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Obrazki/form.html.twig</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/web/css/425e28c.css</file>
             <file>file:/C:/xampp/htdocs/test/projekt/app/Resources/views/base.html.twig</file>
-            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Personel/index.html.twig</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Form/ObrazkiType.php</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Default/new.html.twig</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Controller/DefaultController.php</file>
             <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/views/Obrazki/show.html.twig</file>
+            <file>file:/C:/xampp/htdocs/test/projekt/src/TestAppBundle/Resources/public/main.js</file>
         </group>
     </open-files>
 </project-private>

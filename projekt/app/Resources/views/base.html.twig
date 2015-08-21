@@ -3,48 +3,37 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            {% stylesheets '@bootstrap_less' combine=true %}
+            <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+            {% endstylesheets %}
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="/resources/demos/style.css">
-     <script type='text/javascript' >
-        function upload(blobOrFile) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '{{asset('Symfony/web/')}}', true);
-  xhr.onload = function(e) { ... };
-
-  // Listen to the upload progress.
-  var progressBar = document.querySelector('progress');
-  xhr.upload.onprogress = function(e) {
-    if (e.lengthComputable) {
-      progressBar.value = (e.loaded / e.total) * 100;
-      progressBar.textContent = progressBar.value;  
-       }
-  };
-
-xhr.send(blobOrFile);
-}
- </script>
+       
+        
+        
     </head>
-    <body>
-        {% block body %}{% endblock %}
-        <style type="text/css">
-            #ui-datepicker-div{
-                font-size: 12px;
-            }
-        </style>
-        <script type="text/javascript" src="{{asset('jquery.js')}}"> </script>
-        <script type="text/javascript" src="{{asset('jquery-ui.js')}}"></script>
-        <script type='text/javascript' >
-             $(function() {
-$( "#datepicker" ).datepicker();
-});
-            
-         {% block javascripts %}{% endblock %}
-             
- 
-        </script>
-        <progress min="0" max="100" value="0">0% complete</progress>
-        <p>Date: <input type="text" id="datepicker"></p>
-    </body>
+    <body class="container">
+    {% block body %}{% endblock %}
+    <style type="text/css">
+        #ui-datepicker-div{
+            font-size: 12px;
+        }
+    </style>
+    {#<script type="text/javascript" src="{{asset('jquery.js')}}"> </script>#}
+    {% block javascripts %}
+        {% javascripts '@jquery_js' '@bootstrap_js' combine=true %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+   
+    
+
+
+<div id="ladowanie"></div>
+<div id="postep"></div>
+<div id="odpowiedz"></div>
+    <progress min="0" max="100" value="0" id="progressBar">0% complete</progress>
+    <p>Date: <input type="text" id="datepicker"></p>
+</body>
 </html>
