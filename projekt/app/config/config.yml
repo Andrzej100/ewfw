@@ -60,11 +60,11 @@ assetic:
 #        filters: [yui_js]
         jquery_js:
             inputs:
-                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js'
+                - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
             output: jquery.js
         bootstrap_js:
             inputs:
-                - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+#                - '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/alert.js'
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/modal.js'
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/dropdown.js'
@@ -76,6 +76,7 @@ assetic:
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/collapse.js'
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/carousel.js'
                 - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/affix.js'
+                - '%kernel.root_dir%/../vendor/twitter/bootstrap/js/transition.js'
             output: bootstrap.js
 #        filters: [yui_js]
         bootstrap_less:

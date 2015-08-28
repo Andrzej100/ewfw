@@ -1,15 +1,14 @@
-
-
+{% extends '::base.html.twig' %}
 {% block body -%}
     <h1>Demo creation</h1>
- 
+
     <div class="form_error"></div>
-    <form method="POST" class="ajaxForm" action="{{path('Obrazki_create')}}" {{ form_enctype(form) }}>
+    <form method="POST" class="ajaxForm" id="formik" action="{{path('Obrazki_create')}}" {{ form_enctype(form) }}>
         <div id="form_body">
             {% include 'TestAppBundle:Obrazki:form.html.twig' with {'form': form} %}
         </div>
  
-        <button type="submit" class="btn btn-primary">Submit</button>
+       
         {{form_rest(form)}}
     </form>
  
@@ -19,12 +18,33 @@
                 Back to the list
             </a>
         </li>
-    </ul>
+    </ul>       
+                
+                <div id="error" class="text-danger"></div>
+                <div class="loading-progress"></div>
+                <div id="info" class="text-info" ></div>
+                <div id="infoserver" class="text-info" ></div>
+        
+            {%for obrazek in obrazki %}
+                <img src="{{asset(obrazek.nazwa)}}" />
+            {% endfor%}
+            
+           
 {% endblock %}
  
  
 {% block javascripts %}
+<script type="text/javascript" src="{{ asset('Symfony/web/main.js') }}"></script>
+<script type="text/javascript" src="{{asset('jquery.progresstimer.js')}}"></script>
+<script type="text/javascript" src="{{asset('bootstrap-filestyle.min.js')}}"> </script>
+
+<script>$(":file").filestyle({buttonName: "btn-primary"});</script>
 <script>
+    
     initAjaxForm();
+       
+   
+    
+    
 </script>
 {% endblock %}

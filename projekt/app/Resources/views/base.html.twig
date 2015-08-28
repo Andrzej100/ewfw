@@ -8,22 +8,23 @@
             <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
             {% endstylesheets %}
         {% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-       
-        
+    
+
         
     </head>
     <body class="container">
     {% block body %}{% endblock %}
+   
     <style type="text/css">
         #ui-datepicker-div{
             font-size: 12px;
         }
     </style>
-    {#<script type="text/javascript" src="{{asset('jquery.js')}}"> </script>#}
+    <script type="text/javascript" src="{{asset('jquery.js')}}"> </script>
     {% block javascripts %}
         {% javascripts '@jquery_js' '@bootstrap_js' combine=true %}
         <script src="{{ asset_url }}"></script>
+   
         {% endjavascripts %}
     {% endblock %}
    
@@ -33,7 +34,7 @@
 <div id="ladowanie"></div>
 <div id="postep"></div>
 <div id="odpowiedz"></div>
-    <progress min="0" max="100" value="0" id="progressBar">0% complete</progress>
-    <p>Date: <input type="text" id="datepicker"></p>
+    
+    
 </body>
 </html>

@@ -9,16 +9,15 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use TestAppBundle\Entity\Obrazki;
 use TestAppBundle\Form\ObrazkiType;
-
-
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Obrazki controller.
  *
  * @Route("/Obrazki")
  */
-class ObrazkiController extends Controller
-{
+class ObrazkiController extends Controller {
 
     /**
      * Lists all Obrazki entities.
@@ -27,8 +26,7 @@ class ObrazkiController extends Controller
      *
      * @Template()
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('TestAppBundle:Obrazki')->findAll();
@@ -37,46 +35,41 @@ class ObrazkiController extends Controller
             'entities' => $entities,
         );
     }
+
     /**
      * Creates a new Obrazki entity.
      *
-     * @Route("/", name="Obrazki_create")
-     * @Method("POST")
+     * @Route("/ajax/new", name="Obrazki_create")
      * @Template("TestAppBundle:Obrazki:new.html.twig")
      */
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request) {
+        
         $entity = new Obrazki();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        
-      
-            
-        
-         
-           
-        if ($form->isValid()) {
-            
-            
-            
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
 
-            //return $this->redirect($this->generateUrl('Obrazki_show', array('id' => $entity->getId())));
-            return new JsonResponse(array('message' => 'Success!'), 200);
+        $files = new \TestAppBundle\Component\File($this->get('kernel')->getRootDir());
+        $files->setRozmiar(ini_get('post_max_size'));
+        $files->setFormat(array("txt", "exe", "html", "php", "css", "js", "json", "xml", "swf", "flv", "pdf", "psd", "eps", "ps", "doc", "rtf", "ppt", "odt", "ods", "jpeg",'jpg', "bmp", "png", "gif"));
+        $odpowiedz = $files->zapiszplik('data');
+
+        if($odpowiedz=="Pliki zapisano"){
+        $em = $this->getDoctrine()->getManager();
+        $entity->setNazwa($files->getname());
+
+        $em->persist($entity);
+        $em->flush();
         }
-
-       $response = new JsonResponse(
-            array(
-        'message' => 'Error',
-        'form' => $this->renderView('TestAppBundle:Obrazki:form.html.twig',
-                array(              
-            'entity' => $entity,
-            'form' => $form->createView(),
-        ))), 400);
- 
-    return $response;
+        $response = new JsonResponse(
+                array(
+            'nazwa' => $files->getname(),
+            'rozmiar' => $files->getSize(),
+            'typ' => $files->getType(),
+            'tymczasowa' => $files->getTmpname(),
+            'wiadomosc' => $odpowiedz, 200));
+        
+        return $response;
+        
     }
 
     /**
@@ -86,15 +79,14 @@ class ObrazkiController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Obrazki $entity)
-    {
+    private function createCreateForm(Obrazki $entity) {
         $form = $this->createForm(new ObrazkiType(), $entity, array(
             'action' => $this->generateUrl('Obrazki_new'),
-            'attr' => array('id'=>'myForm'),
+            'attr' => array('id' => 'myForm'),
             'method' => 'POST',
         ));
 
-        $form->add('button', 'submit', array('label' => 'create'));
+        $form->add('button', 'submit', array('label' => 'Upload', 'attr' => array('class' => 'btn btn-primary')));
 
         return $form;
     }
@@ -106,22 +98,15 @@ class ObrazkiController extends Controller
      * 
      * @Template("TestAppBundle:Obrazki:new.html.twig")
      */
-    public function newAction(Request $request)
-    {
+    public function newAction(Request $request) {
         $entity = new Obrazki();
-        $form   = $this->createCreateForm($entity);
-      
-           
-            
-          
-      
-       
-       
-        return array( 
-           
-           
+        $form = $this->createCreateForm($entity);
+        $obrazki = $this->getDoctrine()->getRepository('TestAppBundle:Obrazki')->findAll();
+
+        return array(
+            'obrazki' => $obrazki,
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -132,13 +117,12 @@ class ObrazkiController extends Controller
      * 
      * @Template()
      */
-    public function showAction($id)
-    {
+    public function showAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('TestAppBundle:Obrazki')->find($id);
-        
-      
+
+
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Obrazki entity.');
@@ -147,8 +131,7 @@ class ObrazkiController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -160,8 +143,7 @@ class ObrazkiController extends Controller
      *
      * @Template()
      */
-    public function editAction($id)
-    {
+    public function editAction($id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('TestAppBundle:Obrazki')->find($id);
@@ -174,21 +156,20 @@ class ObrazkiController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Obrazki entity.
-    *
-    * @param Obrazki $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Obrazki $entity)
-    {
+     * Creates a form to edit a Obrazki entity.
+     *
+     * @param Obrazki $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(Obrazki $entity) {
         $form = $this->createForm(new ObrazkiType(), $entity, array(
             'action' => $this->generateUrl('Obrazki_update', array('id' => $entity->getId())),
             'method' => 'PUT',
@@ -198,6 +179,7 @@ class ObrazkiController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Obrazki entity.
      *
@@ -205,8 +187,7 @@ class ObrazkiController extends Controller
      * @Method("PUT")
      * @Template("TestAppBundle:Obrazki:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('TestAppBundle:Obrazki')->find($id);
@@ -226,19 +207,19 @@ class ObrazkiController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Obrazki entity.
      *
      * @Route("/{id}", name="Obrazki_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, $id)
-    {
+    public function deleteAction(Request $request, $id) {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
@@ -264,13 +245,13 @@ class ObrazkiController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
-    {
+    private function createDeleteForm($id) {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('Obrazki_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
+                        ->setAction($this->generateUrl('Obrazki_delete', array('id' => $id)))
+                        ->setMethod('DELETE')
+                        ->add('submit', 'submit', array('label' => 'Delete'))
+                        ->getForm()
         ;
     }
+
 }

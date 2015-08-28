@@ -16,7 +16,7 @@ class ObrazkiType extends AbstractType
     {
         $builder
             ->add('nazwa')
-            ->add('data', 'file'  , array('attr' => array('id'=>'file'))
+            ->add('data', 'file'  , array('attr' => array('id'=>'file','class'=>'btn btn-default'))
                
          
             )
